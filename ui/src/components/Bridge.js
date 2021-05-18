@@ -19,6 +19,7 @@ import { toDecimals } from '../stores/utils/decimals'
 export class Bridge extends React.Component {
   state = {
     amount: '',
+    formattedBalance: '',
     modalData: {},
     confirmationData: {},
     showModal: false,
@@ -179,7 +180,13 @@ export class Bridge extends React.Component {
   isGreaterThan = (amount, base) => new BN(amount).gt(new BN(base))
 
   handleSendMax = balance => {
+
+    const formattedBalance = isNaN(numeral(balance).format('0.00', Math.floor))
+    ? numeral(0).format('0,0.00', Math.floor)
+    : numeral(balance).format('0,0.00', Math.floor)
+
     this.setState({
+      "formattedBalance": formattedBalance,
       "amount": balance
     })
   }
@@ -386,7 +393,7 @@ export class Bridge extends React.Component {
                     onTransfer={this.onTransfer}
                     reverse={reverse}
                     OnSendMax={() => reverse ? this.handleSendMax(foreignStore.balance) : this.handleSendMax(homeStore.getDisplayedBalance())}
-                    amount={this.state.amount}
+                    amount={this.state.formattedBalance}
                   />
                   <BridgeNetwork
                     balance={reverse ? homeStore.getDisplayedBalance() : foreignStore.balance}
