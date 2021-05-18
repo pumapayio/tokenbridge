@@ -178,6 +178,12 @@ export class Bridge extends React.Component {
 
   isGreaterThan = (amount, base) => new BN(amount).gt(new BN(base))
 
+  handleSendMax = balance => {
+    this.setState({
+      "amount": balance
+    })
+  }
+
   onTransfer = async e => {
     e.preventDefault()
 
@@ -379,6 +385,8 @@ export class Bridge extends React.Component {
                     onInputChange={this.handleInputChange('amount')}
                     onTransfer={this.onTransfer}
                     reverse={reverse}
+                    OnSendMax={() => reverse ? this.handleSendMax(foreignStore.balance) : this.handleSendMax(homeStore.getDisplayedBalance())}
+                    amount={this.state.amount}
                   />
                   <BridgeNetwork
                     balance={reverse ? homeStore.getDisplayedBalance() : foreignStore.balance}
