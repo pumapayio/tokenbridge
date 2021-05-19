@@ -37,7 +37,8 @@ export class Bridge extends React.Component {
 
   handleInputChange = name => event => {
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
+      "formattedBalance": event.target.value
     })
   }
 
